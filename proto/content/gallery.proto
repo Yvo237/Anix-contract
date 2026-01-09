@@ -36,7 +36,33 @@ message ListArtworksResponse {
   repeated Artwork artworks = 1;
 }
 
+// MinIO storage messages
+message PresignedUrlRequest {
+  string user_id = 1;
+  string filename = 2;
+  string content_type = 3; // e.g., "image/jpeg", "image/png"
+}
+
+message PresignedUrlResponse {
+  string upload_url = 1;
+  string file_url = 2;
+  string file_id = 3;
+  int64 expires_at = 4;
+}
+
+message DeleteImageRequest {
+  string user_id = 1;
+  string file_id = 2;
+}
+
+message DeleteImageResponse {
+  bool success = 1;
+  string message = 2;
+}
+
 service GalleryService {
   rpc UploadArtwork(UploadArtworkRequest) returns (UploadArtworkResponse);
   rpc ListArtworks(ListArtworksRequest) returns (ListArtworksResponse);
+  rpc GetPresignedUploadUrl(PresignedUrlRequest) returns (PresignedUrlResponse);
+  rpc DeleteImage(DeleteImageRequest) returns (DeleteImageResponse);
 }
