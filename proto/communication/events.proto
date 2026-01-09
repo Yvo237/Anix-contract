@@ -1,0 +1,41 @@
+syntax = "proto3";
+package communication;
+option go_package = "github.com/Yvo237/Anix-contract/proto/communication;communicationpb";
+
+message Event {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  int64 date = 4;
+}
+
+message CreateEventRequest {
+  string title = 1;
+  string description = 2;
+  int64 date = 3;
+}
+
+message CreateEventResponse {
+  Event event = 1;
+}
+
+message RegisterEventRequest {
+  string event_id = 1;
+  string user_id = 2;
+}
+
+message RegisterEventResponse {
+  string status = 1; // "registered" / "already_registered"
+}
+
+message ListEventsRequest {}
+
+message ListEventsResponse {
+  repeated Event events = 1;
+}
+
+service EventsService {
+  rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse);
+  rpc RegisterEvent(RegisterEventRequest) returns (RegisterEventResponse);
+  rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+}

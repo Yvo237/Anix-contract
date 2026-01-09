@@ -1,0 +1,60 @@
+syntax = "proto3";
+package commerce;
+option go_package = "github.com/Yvo237/Anix-contract/proto/commerce;commercepb";
+
+message Contest {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  int64 deadline = 4;
+}
+
+message Entry {
+  string id = 1;
+  string contest_id = 2;
+  string user_id = 3;
+  string artwork_url = 4;
+  int32 votes = 5;
+}
+
+message CreateContestRequest {
+  string title = 1;
+  string description = 2;
+  int64 deadline = 3;
+}
+
+message CreateContestResponse {
+  Contest contest = 1;
+}
+
+message SubmitEntryRequest {
+  string contest_id = 1;
+  string user_id = 2;
+  string artwork_url = 3;
+}
+
+message SubmitEntryResponse {
+  Entry entry = 1;
+}
+
+message VoteEntryRequest {
+  string entry_id = 1;
+  string user_id = 2;
+}
+
+message VoteEntryResponse {
+  Entry entry = 1;
+}
+
+message ListContestsRequest {}
+
+message ListContestsResponse {
+  repeated Contest contests = 1;
+}
+
+service ContestService {
+  rpc CreateContest(CreateContestRequest) returns (CreateContestResponse);
+  rpc SubmitEntry(SubmitEntryRequest) returns (SubmitEntryResponse);
+  rpc VoteEntry(VoteEntryRequest) returns (VoteEntryResponse);
+  rpc ListContests(ListContestsRequest) returns (ListContestsResponse);
+}

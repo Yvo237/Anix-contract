@@ -1,0 +1,54 @@
+syntax = "proto3";
+package social;
+option go_package = "github.com/Yvo237/Anix-contract/proto/social;socialpb";
+
+message Topic {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  int64 created_at = 5;
+}
+
+message Comment {
+  string id = 1;
+  string topic_id = 2;
+  string author_id = 3;
+  string content = 4;
+  int64 created_at = 5;
+}
+
+message CreateTopicRequest {
+  string title = 1;
+  string content = 2;
+  string author_id = 3;
+}
+
+message CreateTopicResponse {
+  Topic topic = 1;
+}
+
+message ListTopicsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ListTopicsResponse {
+  repeated Topic topics = 1;
+}
+
+message PostCommentRequest {
+  string topic_id = 1;
+  string author_id = 2;
+  string content = 3;
+}
+
+message PostCommentResponse {
+  Comment comment = 1;
+}
+
+service ForumService {
+  rpc CreateTopic(CreateTopicRequest) returns (CreateTopicResponse);
+  rpc ListTopics(ListTopicsRequest) returns (ListTopicsResponse);
+  rpc PostComment(PostCommentRequest) returns (PostCommentResponse);
+}

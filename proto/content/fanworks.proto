@@ -1,0 +1,57 @@
+syntax = "proto3";
+package content;
+option go_package = "github.com/Yvo237/Anix-contract/proto/content;contentpb";
+
+message Fanwork {
+  string id = 1;
+  string user_id = 2;
+  string title = 3;
+  string content = 4;
+  string type = 5; // "fanart" ou "fanfiction"
+  int64 created_at = 6;
+}
+
+message FanworkComment {
+  string id = 1;
+  string fanwork_id = 2;
+  string user_id = 3;
+  string content = 4;
+  int64 created_at = 5;
+}
+
+message PublishFanworkRequest {
+  string user_id = 1;
+  string title = 2;
+  string content = 3;
+  string type = 4;
+}
+
+message PublishFanworkResponse {
+  Fanwork fanwork = 1;
+}
+
+message ListFanworksRequest {
+  string type = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListFanworksResponse {
+  repeated Fanwork fanworks = 1;
+}
+
+message CommentFanworkRequest {
+  string fanwork_id = 1;
+  string user_id = 2;
+  string content = 3;
+}
+
+message CommentFanworkResponse {
+  FanworkComment comment = 1;
+}
+
+service FanworksService {
+  rpc PublishFanwork(PublishFanworkRequest) returns (PublishFanworkResponse);
+  rpc ListFanworks(ListFanworksRequest) returns (ListFanworksResponse);
+  rpc CommentFanwork(CommentFanworkRequest) returns (CommentFanworkResponse);
+}

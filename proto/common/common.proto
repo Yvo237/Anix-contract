@@ -1,0 +1,16 @@
+syntax = "proto3";
+package proto.common;
+
+option go_package = "github.com/Yvo237/Anix-contract/proto/common;commonpb";
+
+// Pagination represents pagination information for a list of items.
+message Pagination {
+  // Current page number.
+  int32 page = 1;
+  // Number of items per page.
+  int32 page_size = 2;
+  // total number of items.
+  int64 total = 3;
+  // total number of pages.
+  int32 total_pages = 4;
+}

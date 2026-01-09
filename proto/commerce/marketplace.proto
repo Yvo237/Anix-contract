@@ -1,0 +1,48 @@
+syntax = "proto3";
+package commerce;
+option go_package = "github.com/Yvo237/Anix-contract/proto/commerce;commercepb";
+
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string image_url = 5;
+}
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  repeated string product_ids = 3;
+  double total = 4;
+  int64 created_at = 5;
+}
+
+message ListProductsRequest {}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+message CreateOrderRequest {
+  string user_id = 1;
+  repeated string product_ids = 2;
+}
+
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+message GetOrderRequest {
+  string order_id = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+service MarketplaceService {
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+}

@@ -1,127 +1,83 @@
 # Anix Protocol Buffers
 
-This repository contains the Protocol Buffer definitions for the Anix anime/manga community platform.
+Protocol Buffer definitions for Anix anime/manga community platform.
+
+## Repository
+
+ **Repository**: [github.com/Yvo237/Anix-contract](https://github.com/Yvo237/Anix-contract)
 
 ## Structure
 
 ```
 proto/
-├── auth.proto          # Authentication and user management
-├── gallery.proto        # Art gallery and image management
-├── forum.proto          # Forum discussions and topics
-├── contest.proto        # Art contests and competitions
-├── fanworks.proto       # Fan fiction and fan art
-├── messaging.proto      # Private messaging system
-├── marketplace.proto   # Marketplace for merchandise
-├── events.proto         # Events and meetups
-└── notification.proto  # Notifications and alerts
+├── common/           # Shared messages and utilities
+│   └── common.proto
+├── user/            # Authentication and user management
+│   └── auth.proto
+├── content/         # Content creation and management
+│   ├── gallery.proto
+│   └── fanworks.proto
+├── social/          # Social interactions
+│   ├── forum.proto
+│   └── messaging.proto
+├── commerce/        # Commercial activities
+│   ├── marketplace.proto
+│   └── contest.proto
+└── communication/   # Events and notifications
+    ├── events.proto
+    └── notification.proto
 ```
 
-## Services Overview
+## Services
 
-### Auth Service
-- User registration and login
-- Profile management
-- Token-based authentication
-
-### Gallery Service
-- Artwork upload and management
-- Public/private galleries
-- Tag-based organization
-
-### Forum Service
-- Topic creation and discussion
-- Comments and replies
-- Community interaction
-
-### Contest Service
-- Contest creation and management
-- Entry submission and voting
-- Winner selection
-
-### Fanworks Service
-- Fan fiction publishing
-- Fan art sharing
-- Community feedback
-
-### Messaging Service
-- Private conversations
-- Real-time messaging
-- Thread management
-
-### Marketplace Service
-- Product listings
-- Order management
-- E-commerce functionality
-
-### Events Service
-- Event creation and registration
-- Meetup organization
-- Community events
-
-### Notification Service
-- Email notifications
-- Push notifications
-- Alert management
+| Domain | Service | Description |
+|--------|---------|-------------|
+| **User** | Auth | User authentication and profile management |
+| **Content** | Gallery | Artwork upload and gallery management |
+| **Content** | Fanworks | Fan fiction and fan art publishing |
+| **Social** | Forum | Community discussions and topics |
+| **Social** | Messaging | Private messaging system |
+| **Commerce** | Marketplace | Product listings and e-commerce |
+| **Commerce** | Contest | Art contests and competitions |
+| **Communication** | Events | Event management and registration |
+| **Communication** | Notification | Email and push notifications |
 
 ## Development
 
 ### Prerequisites
-- Protocol Buffers compiler (`protoc`)
-- Buf CLI tool
+
+- [Protocol Buffers compiler](https://grpc.io/docs/protoc-installation/)
+- [Buf CLI](https://docs.buf.build/installation)
 - Go (for Go code generation)
 
-### Setup
+### Quick Start
 
-1. Install Buf:
 ```bash
-go install github.com/bufbuild/buf/cmd/buf@latest
+# Install dependencies
+just deps
+
+# Generate code
+just generate
+
+# Lint and format
+just lint
+just format
 ```
 
-2. Generate code:
+### Available Commands
+
 ```bash
-buf generate
+just --list          # Show all available commands
+just generate         # Generate protobuf code
+just lint            # Lint protobuf files
+just format          # Format protobuf files
+just clean           # Clean generated files
 ```
 
-3. Lint and format:
-```bash
-buf lint
-buf format -w
+## Go Package Structure
+
+Generated Go packages follow this pattern:
+```
+github.com/Yvo237/Anix-contract/proto/{domain};{service}pb
 ```
 
-### Using Just
-
-Install `just` and run available commands:
-```bash
-just --list
-```
-
-Common commands:
-```bash
-just generate    # Generate protobuf code
-just lint       # Lint protobuf files
-just format     # Format protobuf files
-just clean      # Clean generated files
-```
-
-## Package Structure
-
-All generated Go packages use the following pattern:
-```
-github.com/otakuart/proto/{service};{service}pb
-```
-
-For example:
-- `github.com/otakuart/proto/auth;authpb`
-- `github.com/otakuart/proto/gallery;gallerypb`
-
-## Contributing
-
-1. Follow Protocol Buffers best practices
-2. Use `buf format` to maintain consistent formatting
-3. Run `buf lint` before submitting changes
-4. Update documentation for new services or messages
-
-## License
-
-[Add your license here]

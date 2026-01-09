@@ -1,0 +1,42 @@
+syntax = "proto3";
+package content;
+option go_package = "github.com/Yvo237/Anix-contract/proto/content;contentpb";
+
+message Artwork {
+  string id = 1;
+  string user_id = 2;
+  string title = 3;
+  string description = 4;
+  string image_url = 5;
+  repeated string tags = 6;
+  bool is_public = 7;
+}
+
+message UploadArtworkRequest {
+  string user_id = 1;
+  string title = 2;
+  string description = 3;
+  bytes image_data = 4; // ou URL pré-signée si tu préfères
+  repeated string tags = 5;
+  bool is_public = 6;
+}
+
+message UploadArtworkResponse {
+  Artwork artwork = 1;
+}
+
+message ListArtworksRequest {
+  string user_id = 1;
+  bool only_public = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ListArtworksResponse {
+  repeated Artwork artworks = 1;
+}
+
+service GalleryService {
+  rpc UploadArtwork(UploadArtworkRequest) returns (UploadArtworkResponse);
+  rpc ListArtworks(ListArtworksRequest) returns (ListArtworksResponse);
+}
