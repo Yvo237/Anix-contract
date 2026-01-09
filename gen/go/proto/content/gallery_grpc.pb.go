@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type GalleryServiceClient interface {
 	UploadArtwork(ctx context.Context, in *UploadArtworkRequest, opts ...grpc.CallOption) (*UploadArtworkResponse, error)
 	ListArtworks(ctx context.Context, in *ListArtworksRequest, opts ...grpc.CallOption) (*ListArtworksResponse, error)
+	GetPresignedUploadUrl(ctx context.Context, in *PresignedUrlRequest, opts ...grpc.CallOption) (*PresignedUrlResponse, error)
+	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error)
 }
 
 type galleryServiceClient struct {
@@ -52,12 +54,32 @@ func (c *galleryServiceClient) ListArtworks(ctx context.Context, in *ListArtwork
 	return out, nil
 }
 
+func (c *galleryServiceClient) GetPresignedUploadUrl(ctx context.Context, in *PresignedUrlRequest, opts ...grpc.CallOption) (*PresignedUrlResponse, error) {
+	out := new(PresignedUrlResponse)
+	err := c.cc.Invoke(ctx, "/content.GalleryService/GetPresignedUploadUrl", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *galleryServiceClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error) {
+	out := new(DeleteImageResponse)
+	err := c.cc.Invoke(ctx, "/content.GalleryService/DeleteImage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GalleryServiceServer is the server API for GalleryService service.
 // All implementations must embed UnimplementedGalleryServiceServer
 // for forward compatibility
 type GalleryServiceServer interface {
 	UploadArtwork(context.Context, *UploadArtworkRequest) (*UploadArtworkResponse, error)
 	ListArtworks(context.Context, *ListArtworksRequest) (*ListArtworksResponse, error)
+	GetPresignedUploadUrl(context.Context, *PresignedUrlRequest) (*PresignedUrlResponse, error)
+	DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error)
 	mustEmbedUnimplementedGalleryServiceServer()
 }
 
@@ -70,6 +92,12 @@ func (UnimplementedGalleryServiceServer) UploadArtwork(context.Context, *UploadA
 }
 func (UnimplementedGalleryServiceServer) ListArtworks(context.Context, *ListArtworksRequest) (*ListArtworksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArtworks not implemented")
+}
+func (UnimplementedGalleryServiceServer) GetPresignedUploadUrl(context.Context, *PresignedUrlRequest) (*PresignedUrlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPresignedUploadUrl not implemented")
+}
+func (UnimplementedGalleryServiceServer) DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteImage not implemented")
 }
 func (UnimplementedGalleryServiceServer) mustEmbedUnimplementedGalleryServiceServer() {}
 
@@ -120,6 +148,42 @@ func _GalleryService_ListArtworks_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GalleryService_GetPresignedUploadUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PresignedUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GalleryServiceServer).GetPresignedUploadUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/content.GalleryService/GetPresignedUploadUrl",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GalleryServiceServer).GetPresignedUploadUrl(ctx, req.(*PresignedUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GalleryService_DeleteImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteImageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GalleryServiceServer).DeleteImage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/content.GalleryService/DeleteImage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GalleryServiceServer).DeleteImage(ctx, req.(*DeleteImageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GalleryService_ServiceDesc is the grpc.ServiceDesc for GalleryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +198,14 @@ var GalleryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListArtworks",
 			Handler:    _GalleryService_ListArtworks_Handler,
+		},
+		{
+			MethodName: "GetPresignedUploadUrl",
+			Handler:    _GalleryService_GetPresignedUploadUrl_Handler,
+		},
+		{
+			MethodName: "DeleteImage",
+			Handler:    _GalleryService_DeleteImage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
