@@ -1,12 +1,12 @@
 # Anix Protocol Buffers
 
-Protocol Buffer definitions for Anix anime/manga community platform.
+Protocol Buffer definitions for the Anix anime/manga community platform.
 
 ## Repository
 
- **Repository**: [github.com/Yvo237/Anix-contract](https://github.com/Yvo237/Anix-contract)
+Repository: [github.com/Yvo237/Anix-contract](https://github.com/Yvo237/Anix-contract)
 
-## Structure
+## Project Structure
 
 ```
 proto/
@@ -28,36 +28,36 @@ proto/
     └── notification.proto
 ```
 
-## Services
+## Services Overview
 
 | Domain | Service | Description |
-|--------|---------|-------------|
-| **User** | Auth | User authentication and profile management |
-| **Content** | Gallery | Artwork upload and gallery management |
-| **Content** | Fanworks | Fan fiction and fan art publishing |
-| **Social** | Forum | Community discussions and topics |
-| **Social** | Messaging | Private messaging system |
-| **Commerce** | Marketplace | Product listings and e-commerce |
-| **Commerce** | Contest | Art contests and competitions |
-| **Communication** | Events | Event management and registration |
-| **Communication** | Notification | Email and push notifications |
+|---------|----------|-------------|
+| User | Auth | User authentication and profile management |
+| Content | Gallery | Artwork upload and gallery management |
+| Content | Fanworks | Fan fiction and fan art publishing |
+| Social | Forum | Community discussions and topics |
+| Social | Messaging | Private messaging system |
+| Commerce | Marketplace | Product listings and e-commerce |
+| Commerce | Contest | Art contests and competitions |
+| Communication | Events | Event management and registration |
+| Communication | Notification | Email and push notifications |
 
-## Development
+## Development Setup
 
 ### Prerequisites
 
-- [Protocol Buffers compiler](https://grpc.io/docs/protoc-installation/)
-- [Buf CLI](https://docs.buf.build/installation)
+- Protocol Buffers compiler
+- Buf CLI
 - Go (for Go code generation)
 
-### Quick Start
+### Getting Started
 
 ```bash
 # Install dependencies
 just deps
 
-# Generate code
-just generate
+# Generate Go code
+just go_gen
 
 # Lint and format
 just lint
@@ -68,10 +68,10 @@ just format
 
 ```bash
 just --list          # Show all available commands
-just generate         # Generate protobuf code
-just lint            # Lint protobuf files
-just format          # Format protobuf files
-just clean           # Clean generated files
+just go_gen           # Generate Go code from proto files
+just lint             # Lint protobuf files
+just format           # Format protobuf files
+just clean            # Clean generated files
 ```
 
 ## Go Package Structure
@@ -81,3 +81,10 @@ Generated Go packages follow this pattern:
 github.com/Yvo237/Anix-contract/proto/{domain};{service}pb
 ```
 
+Examples:
+- `github.com/Yvo237/Anix-contract/proto/user;authpb`
+- `github.com/Yvo237/Anix-contract/proto/content;contentpb`
+
+## License
+
+Copyright 2024 Anix. All rights reserved.
